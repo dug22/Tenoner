@@ -22,7 +22,9 @@ data normalization, and the definition of input features and output labels. Teno
 - Tenoner is currently not in Maven Central. To use Tenoner, clone the appropriate repository and build it with Maven after installing Carpentry on your system.
 
 ## Documentation
+
 UserGuide: https://github.com/dug22/Tenoner/blob/master/UserGuide.md
+
 Examples: https://github.com/dug22/Tenoner/tree/master/src/test/java/io/github/dug22/tenoner_test
 
 
