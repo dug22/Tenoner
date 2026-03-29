@@ -2,6 +2,7 @@ package io.github.dug22.tenoner;
 
 import io.github.dug22.carpentry.DataFrame;
 import io.github.dug22.tenoner.data.DatasetFactory.*;
+import io.github.dug22.tenoner.data.LabelEncoder;
 import io.github.dug22.tenoner.math.DataNormalizer;
 import io.github.dug22.tenoner.models.ModelManager;
 import io.github.dug22.tenoner.models.impl.*;
@@ -9,6 +10,15 @@ import io.github.dug22.tenoner.models.impl.*;
 import java.io.File;
 
 public class Tenoner {
+
+    /**
+     * Gets a labelEncoder instance
+     *
+     * @return a new LabelEncoder instance
+     */
+    public static LabelEncoder labelEncoder() {
+        return LabelEncoder.getInstance();
+    }
 
     /**
      * Gets a ModelManager instance
