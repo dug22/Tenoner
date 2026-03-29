@@ -4,10 +4,10 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Getting Started](#Getting Started)
+2. [Getting Started](#getting-started)
 3. [Data Normalization](#data-normalization)
 4. [Datasets](#datasets)
-    * [What are Datasets?](#what-are-datasets?)
+    * [What are Datasets](#what-are-datasets)
     * [Creating Datasets and Defining its Parameters](#creating-datasets-and-defining-its-parameters)
 5. [Machine Learning Models and Algorithms](#machine-learning-models-and-algorithms)
 6. [Saving and Loading Trained Models](#saving-and-loading-trained-models)
@@ -66,7 +66,7 @@ This will add 3 columns to your dataframe called "High_min_max", "Low_min_max", 
 ### What are Datasets?
 A dataset in Tenoner is an object that contains predefined inputs (features) and outputs (labels). Datasets play a crucial role in model training and testing. 
 
-### Creating a Dataset and Defining its Parameters
+### Creating Datasets and Defining its Parameters
 Creating a dataset and defining its parameters is a relatively simple process. Datasets integrate with Carpentry, allowing you to define which columns you'd like to be features and labels.
 Tenoner has done its absolute best in removing noise from its API when creating datasets. Let's say you wanted to create a dataset with double-based features and string-based labels, you can do so by doing this
 
