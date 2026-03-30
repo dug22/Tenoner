@@ -16,18 +16,6 @@ public class SpamOrHamExample extends AbstractExample {
     private DatasetFactory.DoubleIntegerDataset dataset;
     private NaiveBayes naiveBayes;
     private HashMap<String, Double> vocabulary = new HashMap<>();
-    private final Set<String> stopWords = Set.of(
-            "a", "an", "the", "and", "or", "but", "if", "while", "is", "am", "are",
-            "was", "were", "be", "been", "being", "have", "has", "had",
-            "do", "does", "did", "of", "at", "by", "for", "with", "about",
-            "against", "between", "into", "through", "during", "before",
-            "after", "above", "below", "to", "from", "up", "down", "in",
-            "out", "on", "off", "over", "under", "again", "further",
-            "then", "once", "here", "there", "when", "where", "why",
-            "how", "all", "any", "both", "each", "few", "more", "most",
-            "other", "some", "such", "no", "nor", "not", "only", "own",
-            "same", "so", "than", "too", "very", "can", "will", "just"
-    );
     private List<String> countColumns = new ArrayList<>();
 
     @Override
@@ -129,11 +117,6 @@ public class SpamOrHamExample extends AbstractExample {
     private String cleanText(String text) {
         text = text.toLowerCase();
         text = text.replaceAll("\\p{Punct}", "");
-        for (String stopWord : stopWords) {
-            if (text.equalsIgnoreCase(stopWord)) {
-                text = text.replace(stopWord, "");
-            }
-        }
 
         return text;
     }
