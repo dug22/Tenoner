@@ -22,25 +22,41 @@ public class LabelEncoder {
         return this;
     }
 
-    public DataFrame encodeAsIntegers(String... columnNames) {
-        return encode(true, columnNames);
+    public DataFrame encodeAsIntegers( String... columnNames) {
+        return encode(true, false, columnNames);
+    }
+
+    public DataFrame encodeAsIntegers(boolean verbose, String... columnNames) {
+        return encode(true, verbose, columnNames);
     }
 
     public DataFrame encodeAsDoubles(String... columnNames) {
-        return encode(false, columnNames);
+        return encode(false, false, columnNames);
     }
 
-    private DataFrame encode(boolean asIntegers, String... columnNames) {
+    public DataFrame encodeAsDoubles(boolean verbose, String... columnNames) {
+        return encode(false, verbose, columnNames);
+    }
+
+    private DataFrame encode(boolean asIntegers, boolean verbose, String... columnNames) {
         for (String columnName : columnNames) {
             Column<?> column = dataFrame.getColumn(columnName);
             int currentPosition = dataFrame.getColumnIndex(columnName);
-            System.out.println(currentPosition);
             Object[] uniqueValues = column.unique().getValues();
 
             if (asIntegers) {
+                if(verbose){
+                    System.out.println(columnName + "Encodings");
+                }
                 Map<Object, Integer> encodingMap = new HashMap<>();
                 for (int i = 0; i < uniqueValues.length; i++) {
+
+                    if(!encodingMap.containsKey(uniqueValues[i]) && verbose){
+                        System.out.println("Encoding " + uniqueValues[i] + " to " + i);
+                    }
+
                     encodingMap.put(uniqueValues[i], i);
+
                 }
 
                 IntegerColumn encodedColumn = IntegerColumn.create(columnName);
@@ -49,8 +65,14 @@ public class LabelEncoder {
                 }
                 dataFrame.replaceColumn(currentPosition, encodedColumn);
             } else {
+                if(verbose){
+                    System.out.println(columnName + " Encodings");
+                }
                 Map<Object, Double> encodingMap = new HashMap<>();
                 for (int i = 0; i < uniqueValues.length; i++) {
+                    if(!encodingMap.containsKey(uniqueValues[i]) && verbose){
+                        System.out.println("Encoding " + uniqueValues[i] + " to " + i);
+                    }
                     encodingMap.put(uniqueValues[i], (double) i);
                 }
 

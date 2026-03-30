@@ -59,11 +59,7 @@ public class NaiveBayes implements IModel<Double, Integer> {
 
     @Override
     public List<Integer> test(Dataset<Double, Integer> dataset) {
-
-        List<Integer> predictions = new ArrayList<>();
-        for (DataPoint<Double, Integer> dataPoint : dataset.getDataPoints()) {
-            predictions.add(predict(dataPoint.input()));
-        }
+        List<Integer> predictions = dataset.getDataPoints().stream().map(this::predict).toList();
         summaryMap().put("Test Size", String.valueOf(predictions.size()));
         return predictions;
     }

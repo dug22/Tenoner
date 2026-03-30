@@ -18,6 +18,7 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
 
     @Override
     protected void defineDataframe() {
+        out("=== Defining Our DataFrame ===");
         dataFrame = DataFrame.read().csv("https://raw.githubusercontent.com/dug22/datasets/refs/heads/main/breast_cancer.csv")
                 .drop("id");
         IntegerColumn diagnosisID = IntegerColumn.create("diagnosis id");
@@ -30,6 +31,7 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
         }
         dataFrame = dataFrame.addColumn(diagnosisID);
         dataFrame.head();
+        out();
     }
 
     @Override
@@ -45,15 +47,23 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
                 ).output("diagnosis id")
                 .build()
                 .split(0.8, 42);
+        out("=== Defining Our Dataset ===");
+        out("Training Size: " + dataset.getTrainingDatasetFromSplit().getDataPoints().size());
+        out("Test Size: " + dataset.getTestDatasetFromSplit().getDataPoints().size());
+        out();
     }
 
     @Override
     protected void defineModel() {
+        out("=== Defining Our Model ===");
+        out("Model of Choice: Binomial Logistic Regression Model");
+        out();
         binomialLogisticRegression = Tenoner.binomialLogisticRegressionDefault();
     }
 
     @Override
     protected void trainAndEvaluateModel() {
+        out("=== Training and Evaluating Our Model ===");
         DatasetFactory.DoubleIntegerDataset fullDataset = dataset;
         DatasetFactory.DoubleIntegerDataset trainingDataset = fullDataset.getTrainingDatasetFromSplit();
         DatasetFactory.DoubleIntegerDataset testingDataset = fullDataset.getTestDatasetFromSplit();
@@ -61,10 +71,12 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
         List<Integer> predictions = binomialLogisticRegression.test(testingDataset);
         binomialLogisticRegression.evaluateAccuracy(testingDataset.getDataPoints(), predictions);
         binomialLogisticRegression.summary();
+        out();
     }
 
     @Override
     protected void testPredictions() {
+        out("=== Model's Predictions ===");
         List<List<Double>> breastCancerProperties = new ArrayList<>();
 
         //Malignant
@@ -97,7 +109,7 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
 
         for(List<Double> inputs : breastCancerProperties){
             int prediction = binomialLogisticRegression.predict(inputs);
-            System.out.println("Breast Cancer Diagnosis Prediction for " + inputs + " = " + (prediction == 0 ? "M" : "B"));
+            out("Breast Cancer Diagnosis Prediction for " + inputs + " = " + (prediction == 0 ? "M" : "B"));
         }
     }
 

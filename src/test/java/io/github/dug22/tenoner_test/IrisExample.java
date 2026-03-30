@@ -17,7 +17,10 @@ public class IrisExample extends AbstractExample {
 
     @Override
     protected void defineDataframe() {
+        out("=== Defining Our DataFrame ===");
         dataFrame = DataFrame.read().csv("https://raw.githubusercontent.com/dug22/datasets/refs/heads/main/iris.csv");
+        dataFrame.head();
+        out();
     }
 
     @Override
@@ -27,15 +30,23 @@ public class IrisExample extends AbstractExample {
                 .output("Name")
                 .build()
                 .split(0.8, 42);
+        out("=== Defining Our Dataset ===");
+        out("Training Size: " + dataset.getTrainingDatasetFromSplit().getDataPoints().size());
+        out("Test Size: " + dataset.getTestDatasetFromSplit().getDataPoints().size());
+        out();
     }
 
     @Override
     protected void defineModel() {
+        out("=== Defining Our Model ===");
+        out("Model of Choice: KNN Classifier" );
+        out();
         knnClassifier = (KNNClassifier<Double, String>) Tenoner.knnDefault();
     }
 
     @Override
     protected void trainAndEvaluateModel() {
+        out("=== Training and Evaluating Our Model ===");
         DatasetFactory.DoubleStringDataset fullDataset = dataset;
         DatasetFactory.DoubleStringDataset trainingDataset = fullDataset.getTrainingDatasetFromSplit();
         DatasetFactory.DoubleStringDataset testDataset = fullDataset.getTestDatasetFromSplit();
@@ -43,10 +54,12 @@ public class IrisExample extends AbstractExample {
         List<String> predictions = knnClassifier.test(testDataset);
         knnClassifier.evaluateAccuracy(testDataset.getDataPoints(), predictions);
         knnClassifier.summary();
+        out();
     }
 
     @Override
     protected void testPredictions() {
+        out("=== Model's Predictions ===");
         List<List<Double>> irisInputs = new ArrayList<>();
         irisInputs.add(Arrays.asList(5.3, 3.6, 1.5, 0.3)); //Iris-setosa
         irisInputs.add(Arrays.asList(6.1, 3.3, 4.3, 1.8)); //Iris-versicolor
