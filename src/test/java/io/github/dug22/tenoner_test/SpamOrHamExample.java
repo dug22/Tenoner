@@ -15,8 +15,7 @@ public class SpamOrHamExample extends AbstractExample {
     private DataFrame dataFrame;
     private DatasetFactory.DoubleIntegerDataset dataset;
     private NaiveBayes naiveBayes;
-    private HashMap<String, Double> vocabulary = new HashMap<>();
-    private List<String> countColumns = new ArrayList<>();
+    private final List<String> countColumns = new ArrayList<>();
 
     @Override
     protected void defineDataframe() {
