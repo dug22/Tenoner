@@ -12,7 +12,6 @@ public class LabelEncoder {
 
     private DataFrame dataFrame;
 
-
     public static LabelEncoder getInstance() {
         return new LabelEncoder();
     }
@@ -22,7 +21,7 @@ public class LabelEncoder {
         return this;
     }
 
-    public DataFrame encodeAsIntegers( String... columnNames) {
+    public DataFrame encodeAsIntegers(String... columnNames) {
         return encode(true, false, columnNames);
     }
 
@@ -38,20 +37,75 @@ public class LabelEncoder {
         return encode(false, verbose, columnNames);
     }
 
+    public DataFrame encodeAsIntegersWithCustomOrder(Map<String, Object[]> columnsAndValuesMap) {
+        return encodeAsIntegersWithCustomOrder(false, columnsAndValuesMap);
+    }
+
+    public DataFrame encodeAsIntegersWithCustomOrder(boolean verbose, Map<String, Object[]> columnsAndValuesMap) {
+        return encodeWithCustomOrder(true, verbose, columnsAndValuesMap);
+    }
+
+    public DataFrame encodeAsDoublesWithCustomOrder(Map<String, Object[]> columnsAndValuesMap) {
+        return encodeAsDoublesWithCustomOrder(false, columnsAndValuesMap);
+    }
+
+    public DataFrame encodeAsDoublesWithCustomOrder(boolean verbose, Map<String, Object[]> columnsAndValuesMap) {
+        return encodeWithCustomOrder(false, verbose, columnsAndValuesMap);
+    }
+
+
+    private DataFrame encodeWithCustomOrder(boolean asIntegers, boolean verbose, Map<String, Object[]> columns) {
+        for (String columnName : columns.keySet()) {
+            Column<?> column = dataFrame.getColumn(columnName);
+            int currentPosition = dataFrame.getColumnIndex(columnName);
+            Object[] orderedValues = columns.get(columnName);
+            Map<Object, Integer> encodingMap = new HashMap<>();
+            if (verbose) {
+                System.out.println(columnName + "Encodings");
+            }
+            for (int i = 0; i < orderedValues.length; i++) {
+                encodingMap.put(orderedValues[i], i);
+
+                if (!encodingMap.containsKey(orderedValues[i]) && verbose) {
+                    if (asIntegers) {
+                        System.out.println("Encoding " + orderedValues[i] + " to " + i);
+                    } else {
+                        System.out.println("Encoding " + orderedValues[i] + " to " + (double) i);
+                    }
+                }
+            }
+
+            if (asIntegers) {
+                IntegerColumn encoded = IntegerColumn.create(columnName);
+                for (Object val : column.getValues()) {
+                    encoded.append(encodingMap.getOrDefault(val, -1));
+                }
+                dataFrame.replaceColumn(currentPosition, encoded);
+            } else {
+                DoubleColumn encoded = DoubleColumn.create(columnName);
+                for (Object val : column.getValues()) {
+                    Integer idx = encodingMap.get(val);
+                    encoded.append(idx != null ? (double) idx : -1.0);
+                }
+                dataFrame.replaceColumn(currentPosition, encoded);
+            }
+        }
+        return dataFrame;
+    }
+
     private DataFrame encode(boolean asIntegers, boolean verbose, String... columnNames) {
         for (String columnName : columnNames) {
             Column<?> column = dataFrame.getColumn(columnName);
             int currentPosition = dataFrame.getColumnIndex(columnName);
             Object[] uniqueValues = column.unique().getValues();
-
             if (asIntegers) {
-                if(verbose){
+                if (verbose) {
                     System.out.println(columnName + "Encodings");
                 }
                 Map<Object, Integer> encodingMap = new HashMap<>();
                 for (int i = 0; i < uniqueValues.length; i++) {
 
-                    if(!encodingMap.containsKey(uniqueValues[i]) && verbose){
+                    if (!encodingMap.containsKey(uniqueValues[i]) && verbose) {
                         System.out.println("Encoding " + uniqueValues[i] + " to " + i);
                     }
 
@@ -65,12 +119,12 @@ public class LabelEncoder {
                 }
                 dataFrame.replaceColumn(currentPosition, encodedColumn);
             } else {
-                if(verbose){
+                if (verbose) {
                     System.out.println(columnName + " Encodings");
                 }
                 Map<Object, Double> encodingMap = new HashMap<>();
                 for (int i = 0; i < uniqueValues.length; i++) {
-                    if(!encodingMap.containsKey(uniqueValues[i]) && verbose){
+                    if (!encodingMap.containsKey(uniqueValues[i]) && verbose) {
                         System.out.println("Encoding " + uniqueValues[i] + " to " + i);
                     }
                     encodingMap.put(uniqueValues[i], (double) i);

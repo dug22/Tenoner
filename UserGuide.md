@@ -10,12 +10,16 @@
     * [What are Datasets](#what-are-datasets)
     * [Creating Datasets and Defining its Parameters](#creating-datasets-and-defining-its-parameters)
 5. [Machine Learning Models and Algorithms](#machine-learning-models-and-algorithms)
+    * [Defining a Model](#defining-a-model)
+    * [Training and Evaluating a Model](#training-and-evaluating-a-model)
+    * [Making Predictions With Custom Data](#making-predictions-with-custom-data)
 6. [Saving and Loading Trained Models](#saving-and-loading-trained-models)
+7. [Final Notes](#final-notes)
 
 <div align="justify">
 
 ## Overview
-Tenoner is a well-rounded Java-based machine learning library that enables developers to create and train their own custom classification models.
+Tenoner is a well-rounded  supervised and Java-based machine learning library that enables developers to create and train their own custom classification models.
 Tenoner integrates with Carpentry (a Java-based dataframe and visualization library) https://github.com/dug22/carpentry simplifying dataset loading,
 data normalization, and the definition of input features and output labels. Tenoner tries to follow a simple API design, removing noise for developers.
 
@@ -94,9 +98,76 @@ Tenoner provides developers with many common machine learning algorithms to util
 - Binomial Logistic Regression ✅
 - Multinomial Logistic Regression ✅
 
-To get an idea how they work take a look at [Tenonor's Examples](https://github.com/dug22/Tenoner/tree/master/src/test/java/io/github/dug22/tenoner_test). 
+### Defining a Model
+Defining a model is really simple. For instance, say you wanted to use a perceptron to classify whether someone can retire or not based on their age. 
+To define a model, you can simply do the following:
+
+```java
+import io.github.dug22.tenoner.Tenoner;
+import io.github.dug22.tenoner.models.impl.Perceptron;
+
+Perceptron perceptron = Tenoner.perceptronDefault();
+```
+
+Now, if you wish to configure the perceptron's parameters, you can simply do the following:
+```java
+import io.github.dug22.tenoner.Tenoner;
+import io.github.dug22.tenoner.models.impl.Perceptron;
+
+Perceptron perceptron = Tenoner.perceptron()
+        .epochs(100) //Max iterations
+        .learningRate(0.001) //sets the learning rate
+        .threshold(0.75) //Sets the threshold
+        .build();
+```
+
+All of Tenoner's machine learning algorithms/models follow the same build/architecture. 
+
+### Training and Evaluating a Model
+Next comes training and evaluating our model. First, we need to grab our dataset's training and test instances from our given train-test split.
+
+```java
+DatasetFactory.DoubleIntegerDataset trainingDataset = dataset.getTrainingDatasetFromSplit();
+DatasetFactory.DoubleIntegerDataset testingDataset = dataset.getTestDatasetFromSplit();
+```
+
+After retrieving our train test split datasets, you would need to train and evaluate your model. You can do that by simply doing the following:
+
+```java
+perceptron.train(trainingDataset); //This method trains our dataset
+List<Integer> predictions = perceptron.test(testingDataset); //This maps our test dataset with predictions
+perceptron.evaluateAccuracy(testingDataset.getDataPoints(), predictions); //Evaluates our model's accuracy with our testdataset and its predictions
+perceptron.summary(); //Prints an overall summary of our model performed.
+```
 
 
+### Making Predictions With Custom Data
+Let's say you wish to make predictions with custom data. You can simply do that by calling the .predict() method. 
+Here is an example where I had to normalize my synthetic data so that our model could make an appropriate prediction 
+of ages that can and can't retire.
+
+```java
+//Create Our Synthetic DataFrame
+DataFrame testDataFrame = DataFrame.create(DoubleColumn.create("Age", new Double[]{23D, 18D, 19D, 21D, 17D, 45d, 65d, 80d, 100d, 52d, 99d, 28d, 82d}));
+
+//Normalizing our data
+testDataFrame = Tenoner.dataNormalizer().setDataFrame(testDataFrame)
+                                .setColumns("Age")
+                                .setFormula(DataNormalizer.DataNormalizerFormula.MIN_MAX)
+                                .normalize();
+
+//Making predictions with our custom data
+int count = 0;
+DoubleColumn ageColumn = testDataFrame.doubleColumn("Age");
+DoubleColumn minMaxAges = testDataFrame.doubleColumn("Age_min_max");
+for(double age : minMaxAges.getValues()){
+    double actualAgeValue = ageColumn.get(count);
+    int prediction = perceptron.predict(List.of(age));
+    String canRetireStatus = prediction == 1 ? "can retire!" : "cannot retire";
+    System.out.println("A person that is " + actualAgeValue  + " years old " + canRetireStatus);
+    count++;
+}
+```
 
 ## Saving and Loading Trained Models
 Tenoner allows you to save and load trained models. Tenoner utilizes GSON to serialize and deserialize model objects
@@ -124,6 +195,10 @@ NaiveBayes naiveBayesModel = (NaiveBayes) Tenoner.modelManager().loadModel("/pat
 int prediction = naiveBayesModel.predict(List.of(20D));
 System.out.println("Prediction for x is " + prediction);
 ```
+
+## Final Notes
+
+To learn more about how Tenoner's models and algorithms work, you'll get a better understanding by exploring [Tenonor's Examples](https://github.com/dug22/Tenoner/tree/master/src/test/java/io/github/dug22/tenoner_test).
 
 If you have any questions, suggestions, etc., please don't hesitate to create an issue.
 </div>

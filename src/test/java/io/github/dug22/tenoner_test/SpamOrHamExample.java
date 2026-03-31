@@ -31,7 +31,6 @@ public class SpamOrHamExample extends AbstractExample {
         int rowCount = dataFrame.getRowCount();
         for (String word : vocab) {
             if (word.isEmpty()) continue;
-
             Double[] counts = new Double[rowCount];
             for (int i = 0; i < rowCount; i++) {
                 String rowText = textColumn.get(i);
@@ -116,7 +115,6 @@ public class SpamOrHamExample extends AbstractExample {
     private String cleanText(String text) {
         text = text.toLowerCase();
         text = text.replaceAll("\\p{Punct}", "");
-
         return text;
     }
 
