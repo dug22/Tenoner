@@ -21,9 +21,9 @@ Tenoner offers developers with many common machine learning classifier algorithm
 - Multinomial Logistic Regression ✅
 
 ## Getting Started
-- The current release of Tenoner is 1.0.0, and supports version Java 23+. Tenoner will not work unless you have Java 23 installed on your system.
-- Unfortunately Tenoner is currently not in Maven Central. To use Tenoner, download the release of choice and build it with Maven after installing 
-Carpentry and GSON.
+- The current release of Tenoner is 1.0.0, and supports Java version 23+. Tenoner will not work unless you have Java 23 installed on your system.
+- Unfortunately Tenoner is currently not in Maven Central. To use Tenoner, download the release of choice and build it with Maven after installing
+  Carpentry and GSON.
   - Since these libraries are available in Maven Central, add the appropriate dependencies for these libraries (Carpentry and GSON) into your pom.xml file.
     - ```xml
         <dependencies>
@@ -41,7 +41,7 @@ Carpentry and GSON.
       ```
       - Next, download the jar file from the releases tab, which can be accessed through here: https://github.com/dug22/Tenoner/releases
         - I recommend downloading the latest version, but download the version of your choice.
-      - Place the jar file, in an appropriate spot that you'll easily remember. 
+      - Place the jar file, in an appropriate spot that you'll easily remember.
       - Open your terminal and type the following command. The jar will be copied into your Maven local repository.
         ```shell 
         mvn install:install-file -Dfile=/path/to/Tenoner-1-0-0.jar -DgroupId=io.github.dug22 -DartifactId=Tenoner -Dversion=1.0.0 -Dpackaging=jar
@@ -54,16 +54,16 @@ Carpentry and GSON.
               <version>1.0.0</version>
           </dependency>
           ```
-          
+
 ## Why use Tenoner?
-Tenoner can be used for research and other specialized purposes. Tenoner, among other Java-based machine learning libraries. 
+Tenoner can be used for research and other specialized purposes. Tenoner, among other Java-based machine learning libraries.
 Tenoner specializes in making classification tasks easy to carry out. Tenoner allows you to define the proper features and labels
 from the dataset you’re working with, contains a handful of machine learning classification algorithms to utilize, and Tenoner
-provides you with the capability of normalizing and encoding your data. 
+provides you with the capability of normalizing and encoding your data.
 
 ## Documentation
-I have written an official [User Guide](https://github.com/dug22/Tenoner/blob/master/UserGuide.md) that explains how to use Tenoner and serves as a helpful starting point for working with the library.
-I have also created an [Examples](https://github.com/dug22/Tenoner/tree/master/src/test/java/io/github/dug22/tenoner_test) section, to demonstrate how to perform classifier tasks with Tenoner.
+I have written an official [User Guide](https://github.com/dug22/Tenoner/blob/master/UserGuide.md) that goes over how to use Tenoner and serves as a helpful starting point.
+I have also created an [Examples](https://github.com/dug22/Tenoner/tree/master/src/test/java/io/github/dug22/tenoner_test) section, to demonstrate Tenoner's capabilities.
 I plan on adding more examples in future updates.
 
 ## License
