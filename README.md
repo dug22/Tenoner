@@ -9,7 +9,7 @@ Tenoner
 </div>
 
 Tenoner is a lightweight, Java-based supervised machine learning library that allows developers and researchers to efficiently build, train,
-and evaluate custom classifier models, supporting both binary and categorical classification algorithms. Tenoner integrates with [Carpentry](( https://github.com/dug22/carpentry) )
+and evaluate custom classifier models, supporting both binary and categorical classification algorithms. Tenoner integrates with [Carpentry](https://github.com/dug22/carpentry) 
 (a Java-based dataframe and visualization library) simplifying dataset loading, data normalization, and the definition of input features and output
 labels. Tenoner also integrates with [GSON](https://github.com/google/gson), making it easy to save and load trained models.
 Tenoner offers developers with many common machine learning classifier algorithms, including:
@@ -56,8 +56,8 @@ Tenoner offers developers with many common machine learning classifier algorithm
           ```
 
 ## Why use Tenoner?
-Tenoner can be used for research and other specialized purposes. Tenoner, among other Java-based machine learning libraries.
-Tenoner specializes in making classification tasks easy to carry out. Tenoner allows you to define the proper features and labels
+Tenoner can be used for research and other specialized purposes. Tenoner, among other Java-based machine learning libraries
+specializes in making classification tasks easy to carry out. Tenoner allows you to define the proper features and labels
 from the dataset you’re working with, contains a handful of machine learning classification algorithms to utilize, and Tenoner
 provides you with the capability of normalizing and encoding your data.
 
