@@ -1,51 +1,33 @@
 package io.github.dug22.tenoner_test;
 
 import io.github.dug22.carpentry.DataFrame;
-import io.github.dug22.carpentry.column.impl.DoubleColumn;
 import io.github.dug22.carpentry.column.impl.StringColumn;
 import io.github.dug22.tenoner.Tenoner;
 import io.github.dug22.tenoner.data.DatasetFactory;
 import io.github.dug22.tenoner.models.impl.NaiveBayes;
+import io.github.dug22.tenoner_test.utils.BagOfWordsUtils;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class SpamOrHamExample extends AbstractExample {
 
     private DataFrame dataFrame;
     private DatasetFactory.DoubleIntegerDataset dataset;
     private NaiveBayes naiveBayes;
-    private final List<String> countColumns = new ArrayList<>();
+    private final List<String> wordCountColumns = new ArrayList<>();
 
     @Override
     protected void defineDataframe() {
         out("=== Defining Our DataFrame ===");
         dataFrame = DataFrame.read().csv("https://raw.githubusercontent.com/dug22/datasets/refs/heads/main/spam_or_ham.csv");
         StringColumn textColumn = dataFrame.stringColumn("text");
-        textColumn = textColumn.apply(this::cleanText);
+        textColumn = textColumn.apply(BagOfWordsUtils::cleanText);
         dataFrame.replaceColumn(dataFrame.getColumnIndex("text"), textColumn);
-        Set<String> vocab = new HashSet<>();
-        for (String rowText : textColumn) {
-            vocab.addAll(Arrays.asList(rowText.split("\\s+")));
-        }
-        int rowCount = dataFrame.getRowCount();
-        for (String word : vocab) {
-            if (word.isEmpty()) continue;
-            Double[] counts = new Double[rowCount];
-            for (int i = 0; i < rowCount; i++) {
-                String rowText = textColumn.get(i);
-                String[] wordsInRow = rowText.split("\\s+");
-                long count = Arrays.stream(wordsInRow).filter(w -> w.equals(word)).count();
-                counts[i] = (double) count;
-            }
-
-            dataFrame.addColumn(DoubleColumn.create(word + "_count", counts));
-        }
-
+        Set<String> vocab = BagOfWordsUtils.buildVocab(textColumn.getValues());
+        BagOfWordsUtils.createVectorColumns(dataFrame, textColumn, vocab);
         dataFrame = Tenoner.labelEncoder()
                 .setDataFrame(dataFrame)
                 .encodeAsIntegers("label");
-
         dataFrame.renameColumn(Map.of("label","Is Spam"));
         dataFrame.head();
         out();
@@ -56,10 +38,10 @@ public class SpamOrHamExample extends AbstractExample {
         dataset = Tenoner.createDoubleIntegerDataset(dataFrame);
         for(String column : dataFrame.columnNames()){
             if(column.contains("_count")){
-                countColumns.add(column);
+                wordCountColumns.add(column);
             }
         }
-        String[] finalCountColumns = countColumns.toArray(new String[0]);
+        String[] finalCountColumns = wordCountColumns.toArray(new String[0]);
         dataset = dataset.inputs(finalCountColumns)
                 .output("Is Spam")
                 .build()
@@ -100,22 +82,15 @@ public class SpamOrHamExample extends AbstractExample {
         );
 
         customMessages.forEach(message -> {
-            String cleanMessage = cleanText(message);
+            String cleanMessage = BagOfWordsUtils.cleanText(message);
             List<Double> vector = new ArrayList<>();
-            countColumns.forEach(countColumn -> {
-                String word = countColumn.replace("_count", "");
-                Predicate<String> wordEqualsFilter = s -> s.equals(word);
-                vector.add((double) Arrays.stream(cleanMessage.split("\\s")).filter(wordEqualsFilter).count());
+            wordCountColumns.forEach(word -> {
+                String cleanWord = word.replace("_count", "");
+                vector.add((double) Arrays.stream(cleanMessage.split("\\s")).filter(w -> w.equals(cleanWord)).count());
             });
             out("Message: " + cleanMessage);
             out("Prediction: " + (naiveBayes.predict(vector) == 1 ? "Spam" : "Ham"));
         });
-    }
-
-    private String cleanText(String text) {
-        text = text.toLowerCase();
-        text = text.replaceAll("\\p{Punct}", "");
-        return text;
     }
 
     public static void main(String[] args) {
