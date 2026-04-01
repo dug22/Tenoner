@@ -56,8 +56,7 @@ Carpentry and GSON.
           ```
           
 ## Why use Tenoner?
-Tenoner can be used for research and other specialized purposes. Tenoner, among other Java-based machine learning libraries. 
-Tenoner specializes in making classification tasks easy to carry out. Tenoner allows you to define the proper features and labels
+Tenoner can be used for research and other specialized purposes. Tenoner, among other Java-based machine learning libraries specializes in making classification tasks easy to carry out. Tenoner allows you to define the proper features and labels
 from the dataset you’re working with, contains a handful of machine learning classification algorithms to utilize, and Tenoner
 provides you with the capability of normalizing and encoding your data. 
 
