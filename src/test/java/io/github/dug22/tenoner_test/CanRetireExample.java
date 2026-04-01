@@ -8,6 +8,7 @@ import io.github.dug22.tenoner.data.DatasetFactory;
 import io.github.dug22.tenoner.math.DataNormalizer;
 import io.github.dug22.tenoner.models.impl.Perceptron;
 
+
 import java.util.List;
 
 public class CanRetireExample extends AbstractExample {
@@ -28,6 +29,7 @@ public class CanRetireExample extends AbstractExample {
             double randomAge = Math.floor(Math.random() * (maxAge - minAge) + minAge);
             ageColumn.append(randomAge);
         }
+
 
         for (int i = 0; i < ageColumn.size(); i++) {
             double ageValue = ageColumn.get(i);

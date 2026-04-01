@@ -19,14 +19,46 @@
 <div align="justify">
 
 ## Overview
-Tenoner is a well-rounded  supervised and Java-based machine learning library that enables developers to create and train their own custom classification models.
-Tenoner integrates with Carpentry (a Java-based dataframe and visualization library) https://github.com/dug22/carpentry simplifying dataset loading,
-data normalization, and the definition of input features and output labels. Tenoner tries to follow a simple API design, removing noise for developers.
+Tenoner is a lightweight, Java-based supervised machine learning library that allows developers and researchers to efficiently build, train,
+and evaluate custom classifier models, supporting both binary and categorical classification algorithms. Tenoner integrates with [Carpentry](( https://github.com/dug22/carpentry) )
+(a Java-based dataframe and visualization library) simplifying dataset loading, data normalization, and the definition of input features and output
+labels. Tenoner also integrates with [GSON](https://github.com/google/gson), making it easy to save and load trained models.
+
 
 ## Getting Started
-- Ensure that you have Java 23+ installed on your machine.
-- Tenoner is currently not in Maven Central. To use Tenoner, clone the appropriate repository and build it with Maven after installing Carpentry on your system.
-
+- The current release of Tenoner is 1.0.0, and supports version Java 23+. Tenoner will not work unless you have Java 23 installed on your system.
+  - Unfortunately Tenoner is currently not in Maven Central. To use Tenoner, download the release of choice and build it with Maven after installing
+    Carpentry and GSON.
+     - Add the appropriate dependencies for these libraries (Carpentry and GSON) into your pom.xml file.
+        - ```xml
+          <dependencies>
+            <dependency>
+                <groupId>io.github.dug22</groupId>
+                <artifactId>carpentry</artifactId>
+                <version>1.0.7.5</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.13.2</version>
+            </dependency>
+          </dependencies>
+            ```
+           - Next, download the jar file from the releases tab, which can be accessed through here: https://github.com/dug22/Tenoner/releases
+              - I recommend downloading the latest version, but download the version of your choice.
+           - Place the jar file, in an appropriate spot that you'll easily remember.
+           - Open your terminal and type the following command. The jar will be copied into your Maven local repository.
+             ```shell 
+             mvn install:install-file -Dfile=/path/to/Tenoner-1-0-0.jar -DgroupId=io.github.dug22 -DartifactId=Tenoner -Dversion={version} -Dpackaging=jar
+             ```
+           - After installation, just add Tenoner as a dependency in your pom.xml, then you are good to go!
+             - ```xml
+               <dependency>
+                  <groupId>com.google.code.gson</groupId>
+                  <artifactId>gson</artifactId>
+                  <version>2.13.2</version>
+               </dependency>
+               ```
 ## Data Normalization
 
 Data normalization provide developers the capability of scaling or normalizing their data to train models better. 
