@@ -44,7 +44,7 @@ Carpentry and GSON.
       - Place the jar file, in an appropriate spot that you'll easily remember. 
       - Open your terminal and type the following command. The jar will be copied into your Maven local repository.
         ```shell 
-        mvn install:install-file -Dfile=/path/to/tenoner_1_0_0.jar -DgroupId=io.github.dug22 -DartifactId=Tenoner -Dversion={version} -Dpackaging=jar
+        mvn install:install-file -Dfile=/path/to/Tenoner-1-0-0.jar -DgroupId=io.github.dug22 -DartifactId=Tenoner -Dversion=1.0.0 -Dpackaging=jar
         ```
       - After installation, just add Tenoner as a dependency in your pom.xml, then you are good to go!
         - ```xml
