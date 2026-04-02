@@ -21,7 +21,7 @@ Tenoner offers developers with many common machine learning classifier algorithm
 - Multinomial Logistic Regression ✅
 
 ## Getting Started
-- The current release of Tenoner is 1.0.0, and supports Java version 23+. Tenoner will not work unless you have Java 23 installed on your system.
+- The current release of Tenoner is 1.0.1, and supports Java version 23+. Tenoner will not work unless you have Java 23 installed on your system.
 - Unfortunately Tenoner is currently not in Maven Central. To use Tenoner, download the release of choice and build it with Maven after installing
   Carpentry and GSON.
   - Since these libraries are available in Maven Central, add the appropriate dependencies for these libraries (Carpentry and GSON) into your pom.xml file.
@@ -44,7 +44,7 @@ Tenoner offers developers with many common machine learning classifier algorithm
       - Place the jar file, in an appropriate spot that you'll easily remember.
       - Open your terminal and type the following command. The jar will be copied into your Maven local repository.
         ```shell 
-        mvn install:install-file -Dfile=/path/to/Tenoner-1-0-0.jar -DgroupId=io.github.dug22 -DartifactId=Tenoner -Dversion=1.0.0 -Dpackaging=jar
+        mvn install:install-file -Dfile=/path/to/Tenoner-1-0-0.jar -DgroupId=io.github.dug22 -DartifactId=Tenoner -Dversion=1.0.1 -Dpackaging=jar
         ```
       - After installation, just add Tenoner as a dependency in your pom.xml, then you are good to go!
         - ```xml

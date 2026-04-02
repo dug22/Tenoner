@@ -1,10 +1,11 @@
-returnTypes = ["Boolean", "Byte", "Character", "Double", "Float", "Long", "Integer", "Short", "String"]
+inputReturnTypes = ["Byte", "Double", "Float", "Long", "Integer", "Short"]
+outputReturnTypes = ["Boolean", "Byte", "Character", "Double", "Float", "Long", "Integer", "Short", "String"]
 print("import io.github.dug22.carpentry.DataFrame;")
 print("import io.github.dug22.tenoner.data.DatasetFactory.*;")
 print("import java.io.File;")
 print()
-for i in returnTypes:
-  for j in returnTypes:
+for i in inputReturnTypes:
+  for j in outputReturnTypes:
     className = i + j + "Dataset"
     print(f"public static  {className}  create  {className}(String url){{\n")
     print(f"return {className}.of(url);\n")

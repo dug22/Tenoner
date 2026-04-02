@@ -1,7 +1,6 @@
 package io.github.dug22.tenoner_test;
 
 import io.github.dug22.carpentry.DataFrame;
-import io.github.dug22.carpentry.column.impl.DoubleColumn;
 import io.github.dug22.carpentry.column.impl.StringColumn;
 import io.github.dug22.tenoner.Tenoner;
 import io.github.dug22.tenoner.data.DatasetFactory;
@@ -9,7 +8,6 @@ import io.github.dug22.tenoner.models.impl.NaiveBayes;
 import io.github.dug22.tenoner_test.utils.BagOfWordsUtils;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class SentimentAnalysisExample extends AbstractExample {
 
@@ -56,6 +54,9 @@ public class SentimentAnalysisExample extends AbstractExample {
 
     @Override
     protected void defineModel() {
+        out("=== Defining Our Model ===");
+        out("Model of Choice: Naive Bayes" );
+        out();
         naiveBayes = Tenoner.naiveBayes();
     }
 

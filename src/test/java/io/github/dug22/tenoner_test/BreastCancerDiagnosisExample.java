@@ -1,7 +1,6 @@
 package io.github.dug22.tenoner_test;
 
 import io.github.dug22.carpentry.DataFrame;
-import io.github.dug22.carpentry.column.impl.IntegerColumn;
 import io.github.dug22.tenoner.Tenoner;
 import io.github.dug22.tenoner.data.DatasetFactory;
 import io.github.dug22.tenoner.models.impl.BinomialLogisticRegression;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BreastCancerDiagnosisExample extends AbstractExample{
+public class BreastCancerDiagnosisExample extends AbstractExample {
 
     private DataFrame dataFrame;
     private DatasetFactory.DoubleIntegerDataset dataset;
@@ -21,15 +20,9 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
         out("=== Defining Our DataFrame ===");
         dataFrame = DataFrame.read().csv("https://raw.githubusercontent.com/dug22/datasets/refs/heads/main/breast_cancer.csv")
                 .drop("id");
-        IntegerColumn diagnosisID = IntegerColumn.create("diagnosis id");
-        for(String diagnosis : dataFrame.stringColumn("diagnosis").getValues()){
-            if(diagnosis.equalsIgnoreCase("M")){
-                diagnosisID.append(0);
-            }else{
-                diagnosisID.append(1);
-            }
-        }
-        dataFrame = dataFrame.addColumn(diagnosisID);
+        dataFrame = Tenoner.labelEncoder()
+                .setDataFrame(dataFrame)
+                .encodeAsIntegers(true, "diagnosis");
         dataFrame.head();
         out();
     }
@@ -44,7 +37,7 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
                         "compactness_se", "concavity_se", "concave points_se", "symmetry_se", "fractal_dimension_se",
                         "radius_worst", "texture_worst", "perimeter_worst", "area_worst", "smoothness_worst",
                         "compactness_worst", "concavity_worst", "concave points_worst", "symmetry_worst", "fractal_dimension_worst"
-                ).output("diagnosis id")
+                ).output("diagnosis")
                 .build()
                 .split(0.8, 42);
         out("=== Defining Our Dataset ===");
@@ -107,7 +100,7 @@ public class BreastCancerDiagnosisExample extends AbstractExample{
                 10.62, 23.26, 69.1, 341.6, 0.1249, 0.1442, 0.06021, 0.02353, 0.3934, 0.07557
         )));
 
-        for(List<Double> inputs : breastCancerProperties){
+        for (List<Double> inputs : breastCancerProperties) {
             int prediction = binomialLogisticRegression.predict(inputs);
             out("Breast Cancer Diagnosis Prediction for " + inputs + " = " + (prediction == 0 ? "M" : "B"));
         }

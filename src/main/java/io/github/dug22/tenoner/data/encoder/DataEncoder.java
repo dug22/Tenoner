@@ -1,4 +1,4 @@
-package io.github.dug22.tenoner.data;
+package io.github.dug22.tenoner.data.encoder;
 
 import io.github.dug22.carpentry.DataFrame;
 import io.github.dug22.carpentry.column.Column;
@@ -8,15 +8,15 @@ import io.github.dug22.carpentry.column.impl.IntegerColumn;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LabelEncoder {
+public class DataEncoder {
 
     private DataFrame dataFrame;
 
-    public static LabelEncoder getInstance() {
-        return new LabelEncoder();
+    public static DataEncoder getInstance() {
+        return new DataEncoder();
     }
 
-    public LabelEncoder setDataFrame(DataFrame dataFrame) {
+    public DataEncoder setDataFrame(DataFrame dataFrame) {
         this.dataFrame = dataFrame;
         return this;
     }

@@ -20,7 +20,7 @@ public class PlayGolfExample extends AbstractExample {
         out("=== Defining Our DataFrame ===");
         dataFrame = DataFrame.read().csv("https://raw.githubusercontent.com/dug22/datasets/refs/heads/main/play_golf.csv");
         dataFrame.head();
-        dataFrame = Tenoner.labelEncoder()
+        dataFrame = Tenoner.featureEncoder()
                 .setDataFrame(dataFrame)
                 .encodeAsDoubles(true, "Outlook", "Temperature", "Humidity", "Windy");
         dataFrame.head();

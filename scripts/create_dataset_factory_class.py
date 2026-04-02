@@ -1,12 +1,12 @@
-returnTypes = ["Boolean", "Byte", "Character", "Double", "Float", "Long", "Integer", "Short", "String"]
-
+inputReturnTypes = ["Byte", "Double", "Float", "Long", "Integer", "Short"]
+outputReturnTypes = ["Boolean", "Byte", "Character", "Double", "Float", "Long", "Integer", "Short", "String"]
 print("import io.github.dug22.carpentry.DataFrame;")
 print("import io.github.dug22.tenoner.data.DatasetFactory.*;")
 print("import java.io.File;")
 print()
 
-for i in returnTypes:
-    for j in returnTypes:
+for i in inputReturnTypes:
+    for j in outputReturnTypes:
         className = i + j + "Dataset"
         print(f"public static class {className} extends Dataset<{i}, {j}> {{")
 
@@ -24,9 +24,6 @@ for i in returnTypes:
         print()
 
         # Static Factory: DataFrame
-        print(f"    public static {className} create{className}(DataFrame dataframe) {{")
-        print(f"        return {className}.of(dataframe);")
-        print(f"    }}")
         print()
         print(f"    public static {className} of(DataFrame df) {{")
         print(f"        {className} ds = new {className}();")
@@ -36,9 +33,6 @@ for i in returnTypes:
         print()
 
         # Static Factory: File
-        print(f"    public static {className} create{className}(File file) {{")
-        print(f"        return {className}.of(file);")
-        print(f"    }}")
         print()
         print(f"    public static {className} of(File file) {{")
         print(f"        return of(DataFrame.read().csv(file));")
@@ -46,9 +40,6 @@ for i in returnTypes:
         print()
 
         # Static Factory: String URL
-        print(f"    public static {className} create{className}(String url) {{")
-        print(f"        return {className}.of(url);")
-        print(f"    }}")
         print()
         print(f"    public static {className} of(String url) {{")
         print(f"        return of(DataFrame.read().csv(url));")
