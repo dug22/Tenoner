@@ -2,6 +2,7 @@ package io.github.dug22.tenoner.models.impl;
 
 import io.github.dug22.tenoner.data.DataPoint;
 import io.github.dug22.tenoner.data.Dataset;
+import io.github.dug22.tenoner.metric.EvaluationContext;
 import io.github.dug22.tenoner.models.IModel;
 
 import java.util.*;
@@ -18,6 +19,7 @@ public class MultinomialLogisticRegression<I, O> implements IModel<I, O> {
     private double[] biases;
     private int numberOfClasses;
     private List<O> outputEnumeration;
+    private final EvaluationContext evaluationContext = new EvaluationContext();
 
     public MultinomialLogisticRegression() {
         this.epochs = 1000;
@@ -45,6 +47,11 @@ public class MultinomialLogisticRegression<I, O> implements IModel<I, O> {
         this.learningRate = learningRate;
         this.summaryMap = new HashMap<>();
         this.outputEnumeration = new ArrayList<>();
+    }
+
+    @Override
+    public EvaluationContext getEvaluationContext() {
+        return evaluationContext;
     }
 
     @Override

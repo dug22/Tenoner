@@ -6,6 +6,8 @@ import java.util.List;
 
 public  interface Metric {
 
+    List<Double> getScores();
+
    default <I, O> double evaluate(List<DataPoint<I, O>> dataPoints, List<O> predictions){
         return evaluate(dataPoints, predictions, true);
     }

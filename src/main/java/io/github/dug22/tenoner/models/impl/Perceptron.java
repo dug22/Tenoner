@@ -3,6 +3,7 @@ package io.github.dug22.tenoner.models.impl;
 
 import io.github.dug22.tenoner.data.DataPoint;
 import io.github.dug22.tenoner.data.Dataset;
+import io.github.dug22.tenoner.metric.EvaluationContext;
 import io.github.dug22.tenoner.models.IModel;
 
 import java.util.HashMap;
@@ -49,6 +50,11 @@ public class Perceptron implements IModel<Double, Integer> {
         this.bias = 0.0;
         this.threshold = threshold;
         this.summaryMap = new HashMap<>();
+    }
+
+    @Override
+    public EvaluationContext getEvaluationContext() {
+        return new EvaluationContext();
     }
 
     @Override

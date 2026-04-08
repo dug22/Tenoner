@@ -3,6 +3,7 @@ package io.github.dug22.tenoner.models.impl;
 
 import io.github.dug22.tenoner.data.DataPoint;
 import io.github.dug22.tenoner.data.Dataset;
+import io.github.dug22.tenoner.metric.EvaluationContext;
 import io.github.dug22.tenoner.models.IModel;
 
 import java.util.HashMap;
@@ -22,6 +23,11 @@ public class NaiveBayes implements IModel<Double, Integer> {
         classProbabilities = new HashMap<>();
         inputProbabilities = new HashMap<>();
         this.summaryMap = new HashMap<>();
+    }
+
+    @Override
+    public EvaluationContext getEvaluationContext() {
+        return new EvaluationContext();
     }
 
     @Override

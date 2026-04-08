@@ -94,15 +94,14 @@ public class CanRetireExample extends AbstractExample {
                                 .setColumns("Age")
                                 .setFormula(DataNormalizer.DataNormalizerFormula.MIN_MAX)
                                 .normalize();
-
         int count = 0;
         DoubleColumn ageColumn = testDataFrame.doubleColumn("Age");
         DoubleColumn minMaxAges = testDataFrame.doubleColumn("Age_min_max");
        for(double age : minMaxAges.getValues()){
            double actualAgeValue = ageColumn.get(count);
            int prediction = perceptron.predict(List.of(age));
-           String canRetireStatus = prediction == 1 ? "can retire!" : "cannot retire";
-           System.out.println("A person that is " + actualAgeValue  + " years old " + canRetireStatus);
+           String retireStatus = prediction == 1 ? "can retire!" : "cannot retire";
+           System.out.println("A person that is " + actualAgeValue  + " years old " + retireStatus);
            count++;
        }
     }

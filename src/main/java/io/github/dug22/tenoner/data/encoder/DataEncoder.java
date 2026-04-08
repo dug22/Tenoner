@@ -61,12 +61,12 @@ public class DataEncoder {
             Object[] orderedValues = columns.get(columnName);
             Map<Object, Integer> encodingMap = new HashMap<>();
             if (verbose) {
-                System.out.println(columnName + "Encodings");
+                System.out.println(columnName + " Encodings");
             }
             for (int i = 0; i < orderedValues.length; i++) {
                 encodingMap.put(orderedValues[i], i);
 
-                if (!encodingMap.containsKey(orderedValues[i]) && verbose) {
+                if (encodingMap.containsKey(orderedValues[i]) && verbose) {
                     if (asIntegers) {
                         System.out.println("Encoding " + orderedValues[i] + " to " + i);
                     } else {
@@ -85,7 +85,7 @@ public class DataEncoder {
                 DoubleColumn encoded = DoubleColumn.create(columnName);
                 for (Object val : column.getValues()) {
                     Integer idx = encodingMap.get(val);
-                    encoded.append(idx != null ? (double) idx : -1.0);
+                    encoded.append(idx != null ? encodingMap.get(val) : -1.0);
                 }
                 dataFrame.replaceColumn(currentPosition, encoded);
             }

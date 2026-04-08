@@ -6,6 +6,7 @@ import io.github.dug22.tenoner.data.Dataset;
 import io.github.dug22.tenoner.math.distance.DistanceFormula;
 import io.github.dug22.tenoner.math.distance.EuclideanDistance;
 import io.github.dug22.tenoner.math.distance.ManhattanDistance;
+import io.github.dug22.tenoner.metric.EvaluationContext;
 import io.github.dug22.tenoner.models.IModel;
 
 import java.util.*;
@@ -16,6 +17,7 @@ public class KNNClassifier<I, O> implements IModel<I, O> {
     private Dataset<I, O> trainingDataset;
     private final int k;
     private final DistanceFormula distanceFormula;
+    private final EvaluationContext evaluationContext = new EvaluationContext();
 
     public KNNClassifier(int k) {
         this.k = k;
@@ -27,6 +29,11 @@ public class KNNClassifier<I, O> implements IModel<I, O> {
         this.k = k;
         this.distanceFormula = distanceFormula;
         this.summaryMap = new HashMap<>();
+    }
+
+    @Override
+    public EvaluationContext getEvaluationContext() {
+        return evaluationContext;
     }
 
     @Override

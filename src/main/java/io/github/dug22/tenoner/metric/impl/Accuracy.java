@@ -1,10 +1,20 @@
-package io.github.dug22.tenoner.metric;
+package io.github.dug22.tenoner.metric.impl;
 
 import io.github.dug22.tenoner.data.DataPoint;
+import io.github.dug22.tenoner.metric.Metric;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Accuracy implements Metric {
+
+    private final List<Double> scores;
+    private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+    public Accuracy(){
+        this.scores = new ArrayList<>();
+    }
 
     public <I, O> double evaluate(List<DataPoint<I, O>> dataPoints, List<O> predictions, boolean verbose) {
         int count = 0;
@@ -25,9 +35,16 @@ public class Accuracy implements Metric {
                 System.out.printf("%-12s %-12.2f%n", count, (double)correct / maxSize);
             }
 
+            scores.add(Double.valueOf(decimalFormat.format((double) correct / maxSize)));
+
             count++;
         }
 
         return (double) correct / maxSize;
+    }
+
+    @Override
+    public List<Double> getScores() {
+        return scores;
     }
 }
